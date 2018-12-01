@@ -11,8 +11,9 @@ public class Vehiculo {
     Bitmap imagenBitmap;
     double precio;
     String descripcion;
+    boolean nuevo;
 
-    public Vehiculo(int id, String marca, String modelo, byte[] imagenBytes, double precio, String descripcion) {
+    public Vehiculo(int id, String marca, String modelo, byte[] imagenBytes, double precio, String descripcion, int nuevo) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
@@ -20,6 +21,14 @@ public class Vehiculo {
         this.imagenBitmap = BitmapFactory.decodeByteArray(imagenBytes, 0, imagenBytes.length);
         this.precio = precio;
         this.descripcion = descripcion;
+        if(nuevo == 1)
+        {
+            this.nuevo = true;
+        }
+        else
+        {
+            this.nuevo = false;
+        }
     }
 
     public Vehiculo() {
