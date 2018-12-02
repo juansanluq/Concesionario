@@ -90,4 +90,12 @@ public class Vehiculo {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public boolean isNuevo() {
+        return nuevo;
+    }
+
+    public void setNuevo(boolean nuevo) {
+        this.nuevo = nuevo;
+    }
 }

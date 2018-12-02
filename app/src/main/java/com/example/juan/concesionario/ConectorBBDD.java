@@ -1,5 +1,6 @@
 package com.example.juan.concesionario;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -85,6 +86,77 @@ public class ConectorBBDD extends SQLiteAssetHelper {
             db.close();
             return lista_vehiculos;
         }
+    }
+
+    public void modificarVehiculo(Vehiculo vehiculo){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues valores = new ContentValues();
+        valores.put("marca", vehiculo.getMarca());
+        valores.put("modelo", vehiculo.getModelo());
+        valores.put("imagen", vehiculo.getImagenBytes());
+        valores.put("precio", vehiculo.getPrecio());
+        valores.put("descripcion", vehiculo.getDescripcion());
+        valores.put("nuevo", vehiculo.isNuevo());
+        db.update("vehiculos", valores, "id = " + String.valueOf(vehiculo.getId()), null);
+        db.close();
+    }
+
+    public void borrarVehiculo(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("vehiculos", "id="+id, null);
+        db.close();
+    }
+
+    public Extra recuperarExtra(int id)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        Extra extra = new Extra();
+        String[] valores_recuperar = {"id","nombre","descripcion","precio"};
+        Cursor c = db.query("extras",valores_recuperar,"id = "+ id,null,null,null,null,null);
+        if(c.getCount() > 0)
+        {
+            c.moveToFirst();
+            extra = new Extra(c.getInt(0),c.getString(1),c.getString(2),c.getDouble(3));
+            c.close();
+            db.close();
+            return extra;
+        }
+        else
+        {
+            c.close();
+            db.close();
+            return extra;
+        }
+    }
+
+    public ArrayList<Extra> recuperarExtras()
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Extra> lista_extras = new ArrayList<Extra>();
+        String[] valores_recuperar = {"id","nombre","descripcion","precio"};
+        Cursor c = db.query("extras",valores_recuperar,null,null,null,null,null,null);
+        if(c.getCount() > 0)
+        {
+            c.moveToFirst();
+            do {
+                Extra extra = new Extra(c.getInt(0),c.getString(1),c.getString(2),c.getDouble(3));
+                lista_extras.add(extra);
+            }while(c.moveToNext());
+            db.close();
+            c.close();
+            return lista_extras;
+        }
+        else {
+            c.close();
+            db.close();
+            return lista_extras;
+        }
+    }
+
+    public void borrarExtra(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("extras", "id="+id, null);
+        db.close();
     }
 
 }

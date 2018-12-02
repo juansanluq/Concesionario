@@ -132,7 +132,9 @@ public class Principal extends AppCompatActivity {
 
             ListView lv;
             ArrayList<Vehiculo> lista_vehiculos;
-            CochesAdapter adaptador;
+            ArrayList<Extra> lista_extras;
+            CochesAdapter adaptadorCoches;
+            ExtrasAdapter adaptadorExtras;
 
 
             lv = rootView.findViewById(R.id.lv);
@@ -163,18 +165,20 @@ public class Principal extends AppCompatActivity {
             if(pestañaNuevos)
             {
                 lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
-                adaptador = new CochesAdapter(getActivity(),lista_vehiculos);
-                lv.setAdapter(adaptador);
+                adaptadorCoches = new CochesAdapter(getActivity(),lista_vehiculos);
+                lv.setAdapter(adaptadorCoches);
             }
             if(pestañaOcasion)
             {
                 lista_vehiculos = baseDatos.recuperarVehiculosOcasion();
-                adaptador = new CochesAdapter(getActivity(),lista_vehiculos);
-                lv.setAdapter(adaptador);
+                adaptadorCoches = new CochesAdapter(getActivity(),lista_vehiculos);
+                lv.setAdapter(adaptadorCoches);
             }
             if(pestañaExtras)
             {
-
+                lista_extras = baseDatos.recuperarExtras();
+                adaptadorExtras = new ExtrasAdapter(getActivity(),lista_extras);
+                lv.setAdapter(adaptadorExtras);
             }
 
             return rootView;
