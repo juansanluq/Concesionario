@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.juan.concesionario.Detalle">
+    <item
+        android:id="@+id/itEliminar"
+        android:orderInCategory="100"
+        android:title="Eliminar modelo"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itModificar"
+        android:title="Modificar" />
+    <item
+        android:id="@+id/itPresupuesto"
+        android:title="Obtener presupuesto" />
+</menu>
