@@ -1,5 +1,6 @@
 package com.example.juan.concesionario;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -43,6 +44,8 @@ public class Principal extends AppCompatActivity {
     FloatingActionButton fab;
     public static CochesAdapter adaptadorCoches;
     public static ExtrasAdapter adaptadorExtras;
+    public static View vistaPrincipal;
+    static ListView lv;
 
 
     /**
@@ -163,7 +166,7 @@ public class Principal extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
             int numeroPestaña = getArguments().getInt(ARG_SECTION_NUMBER);
 
-            ListView lv;
+
 
 
             lv = rootView.findViewById(R.id.lv);
@@ -191,6 +194,8 @@ public class Principal extends AppCompatActivity {
             }
             //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 
+            lista_extras = baseDatos.recuperarExtras();
+
             if(pestañaNuevos)
             {
                 lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
@@ -204,7 +209,7 @@ public class Principal extends AppCompatActivity {
                     {
                         vehiculoDetalle = lista_vehiculos.get(position);
                         Intent intent = new Intent(getContext(),Detalle.class);
-                        startActivityForResult(intent,PICK_CONTACT_REQUEST);
+                        startActivity(intent);
                     }
                 });
             }
@@ -216,23 +221,51 @@ public class Principal extends AppCompatActivity {
             }
             else if(pestañaExtras)
             {
-                lista_extras = baseDatos.recuperarExtras();
                 adaptadorExtras = new ExtrasAdapter(getActivity(),lista_extras);
                 lv.setAdapter(adaptadorExtras);
             }
-
             return rootView;
         }
     }
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == PICK_CONTACT_REQUEST){
-            if (resultCode == RESULT_OK){
-
-                lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
+            if (resultCode == Activity.RESULT_OK){
+                //lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
+                lista_vehiculos.clear();
                 adaptadorCoches.notifyDataSetChanged();
             }
         }
+    }*/
+
+    public static void refrescarListaVehiculos()
+    {
+        lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
+        adaptadorCoches.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(pestañaNuevos)
+        {
+            lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
+            adaptadorCoches = new CochesAdapter(this,lista_vehiculos);
+            lv.setAdapter(adaptadorCoches);
+        }
+        else if(pestañaOcasion)
+        {
+            lista_vehiculos_ocasion = baseDatos.recuperarVehiculosOcasion();
+            adaptadorCoches = new CochesAdapter(this,lista_vehiculos_ocasion);
+            lv.setAdapter(adaptadorCoches);
+        }
+        else if(pestañaExtras)
+        {
+            lista_extras = baseDatos.recuperarExtras();
+            adaptadorExtras = new ExtrasAdapter(this,lista_extras);
+            lv.setAdapter(adaptadorExtras);
+        }
+        mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
     /**

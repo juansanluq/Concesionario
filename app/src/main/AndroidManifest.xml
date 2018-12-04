@@ -24,7 +24,11 @@
         <activity
             android:name=".Detalle"
             android:label="@string/title_activity_detalle"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Presupuesto"
+            android:label="Presupuesto"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

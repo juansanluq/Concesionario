@@ -10,7 +10,4 @@
     <item
         android:id="@+id/itModificar"
         android:title="Modificar" />
-    <item
-        android:id="@+id/itPresupuesto"
-        android:title="Obtener presupuesto" />
 </menu>

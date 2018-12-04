@@ -1,6 +1,7 @@
 package com.example.juan.concesionario;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class Detalle extends AppCompatActivity {
     private EditText edtMarca, edtModelo, edtDescripcion, edtPrecio;
     private FloatingActionButton fab;
     private Animation animDesaparecer, animAparecer, animDesaparecerGuardar;
+    private boolean presupuesto = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class Detalle extends AppCompatActivity {
                 fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
                 fab.setImageResource(R.drawable.ic_presupuesto);
                 fab.startAnimation(animAparecer);
+                presupuesto = true;
             }
 
             @Override
@@ -100,17 +103,27 @@ public class Detalle extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fab.startAnimation(animDesaparecerGuardar);
+                if(presupuesto)
+                {
+                    Intent i = new Intent(getApplicationContext(),Presupuesto.class);
+                    startActivity(i);
+                }
+                else
+                {
+                    fab.startAnimation(animDesaparecerGuardar);
 
-                Principal.vehiculoDetalle.setMarca(edtMarca.getText().toString());
-                Principal.vehiculoDetalle.setModelo(edtModelo.getText().toString());
-                Principal.vehiculoDetalle.setDescripcion(edtDescripcion.getText().toString());
-                Principal.vehiculoDetalle.setPrecio(Double.parseDouble(edtPrecio.getText().toString()));
+                    Principal.vehiculoDetalle.setMarca(edtMarca.getText().toString());
+                    Principal.vehiculoDetalle.setModelo(edtModelo.getText().toString());
+                    Principal.vehiculoDetalle.setDescripcion(edtDescripcion.getText().toString());
+                    Principal.vehiculoDetalle.setPrecio(Double.parseDouble(edtPrecio.getText().toString()));
 
-                Principal.baseDatos.modificarVehiculo(Principal.vehiculoDetalle);
+                    Principal.baseDatos.modificarVehiculo(Principal.vehiculoDetalle);
 
-                setResult(Activity.RESULT_OK);
-                finish();
+                    edtMarca.setFocusable(false);
+                    edtModelo.setFocusable(false);
+                    edtDescripcion.setFocusable(false);
+                    edtPrecio.setFocusable(false);
+                }
             }
         });
     }
@@ -127,16 +140,17 @@ public class Detalle extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.itModificar:
+                presupuesto = false;
                 edtMarca.setFocusableInTouchMode(true);
                 edtModelo.setFocusableInTouchMode(true);
                 edtDescripcion.setFocusableInTouchMode(true);
                 edtPrecio.setFocusableInTouchMode(true);
                 edtMarca.requestFocus();
                 fab.startAnimation(animDesaparecer);
-                //fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.verde)));
-                //fab.startAnimation(animAparecer);
-
                 return true;
+            case R.id.itEliminar:
+                Principal.baseDatos.borrarVehiculo(Principal.vehiculoDetalle.getId());
+                finish();
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -5,32 +5,31 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CochesAdapter extends BaseAdapter {
-
+public class PresupuestoAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList<Vehiculo> vehiculos;
+    private ArrayList<Extra> extras;
 
-    public CochesAdapter (Activity activity, ArrayList<Vehiculo>vehiculos)
+    public PresupuestoAdapter (Activity activity, ArrayList<Extra>extras)
     {
         this.activity = activity;
-        this.vehiculos = vehiculos;
+        this.extras = extras;
     }
 
     private static class ViewHolder {
-        private ImageView imgv;
-        private TextView txvMarca, txvModelo;
+        private CheckBox checkbox;
+        private TextView txvNombre, txvPrecio;
     }
 
     @Override
     public int getCount() {
-        return vehiculos.size();
+        return extras.size();
     }
 
     @Override
@@ -51,24 +50,22 @@ public class CochesAdapter extends BaseAdapter {
         if(convertView == null)
         {
             LayoutInflater inf = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inf.inflate(R.layout.layout_listview_coches,null);
+            convertView = inf.inflate(R.layout.layout_listview_presupuesto,null);
             holder = new ViewHolder();
 
-            holder.imgv = (ImageView) convertView.findViewById(R.id.imgv);
-            holder.txvMarca = (TextView)convertView.findViewById(R.id.txvMarca);
-            holder.txvModelo = (TextView)convertView.findViewById(R.id.txvModelo);
+            holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkbox);
+            holder.txvNombre = (TextView)convertView.findViewById(R.id.txvNombre);
+            holder.txvPrecio = (TextView)convertView.findViewById(R.id.txvPrecio);
             convertView.setTag(holder);
         }
         else
         {
             holder = (ViewHolder)convertView.getTag();
         }
-            holder.imgv.setImageBitmap(vehiculos.get(position).getImagenBitmap());
-            holder.txvMarca.setText(vehiculos.get(position).getMarca());
-            holder.txvModelo.setText(vehiculos.get(position).getModelo());
+        holder.txvNombre.setText(extras.get(position).getNombre());
+        holder.txvPrecio.setText(String.valueOf(extras.get(position).getPrecio()));
+        holder.checkbox.setChecked(false);
 
         return convertView;
     }
-
-
 }
