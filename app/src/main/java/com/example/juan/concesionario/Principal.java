@@ -29,6 +29,9 @@ import java.util.List;
 
 public class Principal extends AppCompatActivity {
 
+    static final int PICK_CONTACT_REQUEST = 1;
+
+
     public static boolean pestañaNuevos = false;
     public static boolean pestañaOcasion = false;
     public static boolean pestañaExtras = false;
@@ -36,7 +39,10 @@ public class Principal extends AppCompatActivity {
     public static ArrayList<Vehiculo> lista_vehiculos;
     public static ArrayList<Vehiculo> lista_vehiculos_ocasion;
     public static ArrayList<Extra> lista_extras;
+    public static ConectorBBDD baseDatos;
     FloatingActionButton fab;
+    public static CochesAdapter adaptadorCoches;
+    public static ExtrasAdapter adaptadorExtras;
 
 
     /**
@@ -158,14 +164,12 @@ public class Principal extends AppCompatActivity {
             int numeroPestaña = getArguments().getInt(ARG_SECTION_NUMBER);
 
             ListView lv;
-            CochesAdapter adaptadorCoches;
-            ExtrasAdapter adaptadorExtras;
 
 
             lv = rootView.findViewById(R.id.lv);
             lv.setEmptyView(rootView.findViewById(R.id.emptyElement));
 
-            ConectorBBDD baseDatos = new ConectorBBDD(getContext());
+            baseDatos = new ConectorBBDD(getContext());
 
             if (numeroPestaña == 1)
             {
@@ -200,7 +204,7 @@ public class Principal extends AppCompatActivity {
                     {
                         vehiculoDetalle = lista_vehiculos.get(position);
                         Intent intent = new Intent(getContext(),Detalle.class);
-                        startActivity(intent);
+                        startActivityForResult(intent,PICK_CONTACT_REQUEST);
                     }
                 });
             }
@@ -218,6 +222,16 @@ public class Principal extends AppCompatActivity {
             }
 
             return rootView;
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == PICK_CONTACT_REQUEST){
+            if (resultCode == RESULT_OK){
+
+                lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
+                adaptadorCoches.notifyDataSetChanged();
+            }
         }
     }
 

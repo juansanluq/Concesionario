@@ -4,14 +4,125 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fondo_detalle"
+    android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Detalle"
     tools:showIn="@layout/activity_detalle">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="74dp"
+            android:layout_marginLeft="74dp"
+            android:layout_marginTop="68dp"
+            android:text="MARCA:" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView3"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="-7dp"
+            android:layout_marginTop="105dp"
+            android:text="MODELO:" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView3"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="179dp"
+            android:layout_marginEnd="-104dp"
+            android:text="DESCRIPCIÓN:" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView4"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="361dp"
+            android:layout_marginEnd="12dp"
+            android:text="PRECIO:" />
+
+        <EditText
+            android:id="@+id/edtMarca"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="44dp"
+            android:layout_marginRight="44dp"
+            android:background="@null"
+            android:editable="false"
+            android:ems="10"
+            android:focusable="false"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="MARCA" />
+
+        <EditText
+            android:id="@+id/edtModelo"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="97dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginRight="45dp"
+            android:background="@null"
+            android:ems="10"
+            android:focusable="false"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="MODELO" />
+
+        <EditText
+            android:id="@+id/edtPrecio"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="357dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@null"
+            android:ems="10"
+            android:focusable="false"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:text="PRECIO" />
+
+        <EditText
+            android:id="@+id/edtDescripcion"
+            android:layout_width="321dp"
+            android:layout_height="113dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="39dp"
+            android:layout_marginLeft="39dp"
+            android:layout_marginTop="219dp"
+            android:background="@null"
+            android:ems="10"
+            android:focusable="false"
+            android:inputType="textMultiLine"
+            android:text="DESCRIPCION" />
+
+    </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

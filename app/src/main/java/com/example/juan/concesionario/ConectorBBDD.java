@@ -93,7 +93,6 @@ public class ConectorBBDD extends SQLiteAssetHelper {
         ContentValues valores = new ContentValues();
         valores.put("marca", vehiculo.getMarca());
         valores.put("modelo", vehiculo.getModelo());
-        valores.put("imagen", vehiculo.getImagenBytes());
         valores.put("precio", vehiculo.getPrecio());
         valores.put("descripcion", vehiculo.getDescripcion());
         valores.put("nuevo", vehiculo.isNuevo());
