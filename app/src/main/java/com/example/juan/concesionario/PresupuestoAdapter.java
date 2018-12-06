@@ -14,9 +14,11 @@ import java.util.ArrayList;
 
 public class PresupuestoAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList<Extra> extras;
+    private ArrayList<ExtrasPresupuesto> extras;
 
-    public PresupuestoAdapter (Activity activity, ArrayList<Extra>extras)
+    private ArrayList<Double> sumatorioExtras;
+
+    public PresupuestoAdapter (Activity activity, ArrayList<ExtrasPresupuesto>extras)
     {
         this.activity = activity;
         this.extras = extras;
@@ -27,6 +29,11 @@ public class PresupuestoAdapter extends BaseAdapter {
         private TextView txvNombre, txvPrecio;
     }
 
+    public ArrayList<ExtrasPresupuesto> getExtrasArray()
+    {
+        return this.extras;
+    }
+
     @Override
     public int getCount() {
         return extras.size();
@@ -34,7 +41,7 @@ public class PresupuestoAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return extras.get(position);
     }
 
     @Override
@@ -62,10 +69,33 @@ public class PresupuestoAdapter extends BaseAdapter {
         {
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.txvNombre.setText(extras.get(position).getNombre());
-        holder.txvPrecio.setText(String.valueOf(extras.get(position).getPrecio()));
-        holder.checkbox.setChecked(false);
+        if(extras.get(position).isCheckbox())
+        {
+            holder.checkbox.setChecked(true);
+            //precioFinal = precioVehiculo + extras.get(position).getExtra().getPrecio();
+            /*if(precioFinal < precioVehiculo)
+            {
+                precioFinal = precioVehiculo;
+            }*/
+        }
+        else
+        {
+            holder.checkbox.setChecked(false);
+            /*precioFinal = precioVehiculo - extras.get(position).getExtra().getPrecio();
+            if(precioFinal < precioVehiculo)
+            {
+                precioFinal = precioVehiculo;
+            }*/
+        }
+        holder.txvNombre.setText(extras.get(position).getExtra().getNombre());
+        holder.txvPrecio.setText(String.valueOf(extras.get(position).getExtra().getPrecio()));
 
         return convertView;
+    }
+
+    public void setCheckBox(int position){
+        ExtrasPresupuesto items = extras.get(position);
+        items.setCheckbox(!items.isCheckbox());
+        notifyDataSetChanged();
     }
 }

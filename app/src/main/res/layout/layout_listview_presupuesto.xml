@@ -3,16 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/txvNombre"
-        android:layout_width="wrap_content"
+        android:layout_width="149dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="NOMBRE" />
+        android:text="NOMBRE"
+        android:focusable="false"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,13 +27,15 @@
             android:layout_width="201dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="PRECIO" />
+            android:text="PRECIO"
+            android:focusable="false"/>
 
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp" />
+            android:layout_marginLeft="100dp"
+            android:focusable="false"/>
 
     </LinearLayout>
 
