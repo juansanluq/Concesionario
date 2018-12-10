@@ -15,13 +15,13 @@ import java.util.ArrayList;
 public class PresupuestoAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<ExtrasPresupuesto> extras;
+    private boolean esCreacion;
 
-    private ArrayList<Double> sumatorioExtras;
-
-    public PresupuestoAdapter (Activity activity, ArrayList<ExtrasPresupuesto>extras)
+    public PresupuestoAdapter (Activity activity, ArrayList<ExtrasPresupuesto>extras, boolean esCreacion)
     {
         this.activity = activity;
         this.extras = extras;
+        this.esCreacion = esCreacion;
     }
 
     private static class ViewHolder {
@@ -72,24 +72,17 @@ public class PresupuestoAdapter extends BaseAdapter {
         if(extras.get(position).isCheckbox())
         {
             holder.checkbox.setChecked(true);
-            //precioFinal = precioVehiculo + extras.get(position).getExtra().getPrecio();
-            /*if(precioFinal < precioVehiculo)
-            {
-                precioFinal = precioVehiculo;
-            }*/
         }
         else
         {
             holder.checkbox.setChecked(false);
-            /*precioFinal = precioVehiculo - extras.get(position).getExtra().getPrecio();
-            if(precioFinal < precioVehiculo)
-            {
-                precioFinal = precioVehiculo;
-            }*/
+        }
+        if(esCreacion)
+        {
+            holder.txvPrecio.setVisibility(View.GONE);
         }
         holder.txvNombre.setText(extras.get(position).getExtra().getNombre());
         holder.txvPrecio.setText(String.valueOf(extras.get(position).getExtra().getPrecio()));
-
         return convertView;
     }
 

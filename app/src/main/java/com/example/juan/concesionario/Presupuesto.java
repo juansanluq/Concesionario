@@ -63,7 +63,7 @@ public class Presupuesto extends AppCompatActivity implements View.OnClickListen
             extrasPresupuesto.add(new ExtrasPresupuesto(Principal.lista_extras.get(i)));
         }
 
-        adaptador = new PresupuestoAdapter(this,extrasPresupuesto);
+        adaptador = new PresupuestoAdapter(this,extrasPresupuesto,false);
         lv.setAdapter(adaptador);
 
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

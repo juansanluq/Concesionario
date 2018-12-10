@@ -14,12 +14,15 @@ public class ExtrasAdapter extends ArrayAdapter {
 
     private Activity activity;
     private ArrayList<Extra> extras;
+    private int layout;
+    private boolean esDetalle;
 
-    public ExtrasAdapter (Activity activity, ArrayList<Extra> extras)
+    public ExtrasAdapter (Activity activity, ArrayList<Extra> extras, boolean esDetalle)
     {
         super(activity,R.layout.layout_listview_extras,extras);
         this.activity = activity;
         this.extras = extras;
+        this.esDetalle = esDetalle;
     }
 
     private static class ViewHolder
@@ -37,7 +40,6 @@ public class ExtrasAdapter extends ArrayAdapter {
             LayoutInflater inf = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inf.inflate(R.layout.layout_listview_extras,null);
             holder = new ViewHolder();
-
             holder.txvNombre = (TextView) convertView.findViewById(R.id.txvNombre);
             holder.txvDescripcion = (TextView)convertView.findViewById(R.id.txvDescripcion);
             holder.txvPrecio = (TextView)convertView.findViewById(R.id.txvPrecio);
@@ -47,13 +49,18 @@ public class ExtrasAdapter extends ArrayAdapter {
         {
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.txvNombre.setText(extras.get(position).getNombre());
-        holder.txvDescripcion.setText(extras.get(position).getDescripcion());
-        int tamañoDescripcion = Math.round(holder.txvDescripcion.getTextSize());
-        String descripcion = String.valueOf(holder.txvDescripcion.getText()).substring(0,tamañoDescripcion - 5) + "...";
-        holder.txvDescripcion.setText(descripcion);
-        holder.txvPrecio.setText(String.valueOf(extras.get(position).getPrecio()) + " €");
-
+        if(esDetalle)
+        {
+            holder.txvNombre.setText(extras.get(position).getNombre());
+            holder.txvDescripcion.setVisibility(View.GONE);
+            holder.txvPrecio.setVisibility(View.GONE);
+        }
+        else
+        {
+            holder.txvNombre.setText(extras.get(position).getNombre());
+            holder.txvDescripcion.setText(extras.get(position).getDescripcion());
+            holder.txvPrecio.setText(String.valueOf(extras.get(position).getPrecio()) + " €");
+        }
         return convertView;
     }
 

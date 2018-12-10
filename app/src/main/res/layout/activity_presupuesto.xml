@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".Presupuesto"
-    tools:layout_editor_absoluteY="25dp"
-    android:descendantFocusability="blocksDescendants">
+    tools:layout_editor_absoluteY="25dp">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
@@ -57,7 +57,7 @@
     <ListView
         android:id="@+id/lv"
         android:layout_width="393dp"
-        android:layout_height="538dp"
+        android:layout_height="528dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -81,6 +81,7 @@
         android:layout_marginRight="8dp"
         android:text="CALCULAR PRECIO"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lv" />
 

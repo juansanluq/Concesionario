@@ -2,6 +2,8 @@ package com.example.juan.concesionario;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +27,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Principal extends AppCompatActivity {
-
-    static final int PICK_CONTACT_REQUEST = 1;
 
 
     public static boolean pestañaNuevos = false;
@@ -46,6 +53,7 @@ public class Principal extends AppCompatActivity {
     public static ExtrasAdapter adaptadorExtras;
     public static View vistaPrincipal;
     static ListView lv;
+    int fabState = 0;
 
 
     /**
@@ -90,8 +98,9 @@ public class Principal extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //comprobarPestañas();
+                    Intent i = new Intent(getApplicationContext(),nuevoVehiculo.class);
+                    startActivityForResult(i,1);
             }
         });
 
@@ -102,7 +111,9 @@ public class Principal extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                comprobarPestañas(position);
                 fab.startAnimation(myAnim);
+                fabState = position;
             }
 
             @Override
@@ -129,7 +140,10 @@ public class Principal extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.itConocenos) {
+
+            Intent i = new Intent(this,MapsActivity.class);
+            startActivity(i);
 
         }
 
@@ -165,9 +179,6 @@ public class Principal extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
             int numeroPestaña = getArguments().getInt(ARG_SECTION_NUMBER);
-
-
-
 
             lv = rootView.findViewById(R.id.lv);
             lv.setEmptyView(rootView.findViewById(R.id.emptyElement));
@@ -218,25 +229,37 @@ public class Principal extends AppCompatActivity {
                 lista_vehiculos_ocasion = baseDatos.recuperarVehiculosOcasion();
                 adaptadorCoches = new CochesAdapter(getActivity(),lista_vehiculos_ocasion);
                 lv.setAdapter(adaptadorCoches);
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                            long arg3)
+                    {
+                        vehiculoDetalle = lista_vehiculos_ocasion.get(position);
+                        Intent intent = new Intent(getContext(),Detalle.class);
+                        startActivity(intent);
+                    }
+                });
             }
             else if(pestañaExtras)
             {
-                adaptadorExtras = new ExtrasAdapter(getActivity(),lista_extras);
+                adaptadorExtras = new ExtrasAdapter(getActivity(),lista_extras,false);
                 lv.setAdapter(adaptadorExtras);
             }
             return rootView;
         }
     }
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == PICK_CONTACT_REQUEST){
+        if (requestCode == 1){
             if (resultCode == Activity.RESULT_OK){
-                //lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
-                lista_vehiculos.clear();
-                adaptadorCoches.notifyDataSetChanged();
+                lista_vehiculos = baseDatos.recuperarVehiculosNuevos();
+                adaptadorCoches = new CochesAdapter(this,lista_vehiculos);
+                lv.setAdapter(adaptadorCoches);
+                mViewPager.setAdapter(mSectionsPagerAdapter);
             }
         }
-    }*/
+    }
 
     public static void refrescarListaVehiculos()
     {
@@ -262,7 +285,7 @@ public class Principal extends AppCompatActivity {
         else if(pestañaExtras)
         {
             lista_extras = baseDatos.recuperarExtras();
-            adaptadorExtras = new ExtrasAdapter(this,lista_extras);
+            adaptadorExtras = new ExtrasAdapter(this,lista_extras,false);
             lv.setAdapter(adaptadorExtras);
         }
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -289,6 +312,28 @@ public class Principal extends AppCompatActivity {
         public int getCount() {
             // Show 3 total pages.
             return 3;
+        }
+    }
+
+    public void comprobarPestañas(int pestaña)
+    {
+        if (pestaña == 1)
+        {
+            pestañaNuevos = true;
+            pestañaOcasion = false;
+            pestañaExtras = false;
+        }
+        else if (pestaña == 2)
+        {
+            pestañaNuevos = false;
+            pestañaOcasion = true;
+            pestañaExtras = false;
+        }
+        else if (pestaña == 3)
+        {
+            pestañaNuevos = false;
+            pestañaOcasion = false;
+            pestañaExtras = true;
         }
     }
 }

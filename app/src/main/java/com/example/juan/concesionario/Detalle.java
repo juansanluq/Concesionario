@@ -17,13 +17,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import javax.security.auth.PrivateCredentialPermission;
 
 public class Detalle extends AppCompatActivity {
     private AppBarLayout app_bar;
     private EditText edtMarca, edtModelo, edtDescripcion, edtPrecio;
+    private ListView lv;
     private FloatingActionButton fab;
     private Animation animDesaparecer, animAparecer, animDesaparecerGuardar;
     private boolean presupuesto = true;
@@ -32,25 +36,40 @@ public class Detalle extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         app_bar = (AppBarLayout) findViewById(R.id.app_bar);
-        toolbar.setTitle(Principal.vehiculoDetalle.getMarca() + " " + Principal.vehiculoDetalle.getModelo());
-        app_bar.setBackground(new BitmapDrawable(getResources(), Principal.vehiculoDetalle.getImagenBitmap()));
         setSupportActionBar(toolbar);
-
         edtMarca = findViewById(R.id.edtMarca);
         edtModelo = findViewById(R.id.edtModelo);
         edtDescripcion = findViewById(R.id.edtDescripcion);
         edtPrecio = findViewById(R.id.edtPrecio);
+        lv = findViewById(R.id.lv);
+        animDesaparecer = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.desaparecer);
+        animAparecer = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.aparecer);
+        animDesaparecerGuardar = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.desaparecer);
 
+
+        toolbar.setTitle(Principal.vehiculoDetalle.getMarca() + " " + Principal.vehiculoDetalle.getModelo());
+        app_bar.setBackground(new BitmapDrawable(getResources(), Principal.vehiculoDetalle.getImagenBitmap()));
         edtMarca.setText(Principal.vehiculoDetalle.getMarca());
         edtModelo.setText(Principal.vehiculoDetalle.getModelo());
         edtDescripcion.setText(Principal.vehiculoDetalle.getDescripcion());
         edtPrecio.setText(String.valueOf(Principal.vehiculoDetalle.getPrecio()));
 
-        animDesaparecer = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.desaparecer);
-        animAparecer = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.aparecer);
-        animDesaparecerGuardar = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.desaparecer);
+        if(Principal.vehiculoDetalle.isNuevo())
+        {
+            lv.setVisibility(View.GONE);
+        }
+        else
+        {
+            ArrayList <Extra> extrasVehiculoDetalle = new ArrayList<Extra>();
+            extrasVehiculoDetalle = Principal.baseDatos.recuperarExtrasVehiculo(Principal.vehiculoDetalle);
+            ExtrasAdapter adaptador = new ExtrasAdapter(this,extrasVehiculoDetalle,true);
+            lv.setAdapter(adaptador);
+        }
+
+
 
 
         animDesaparecer.setAnimationListener(new Animation.AnimationListener() {

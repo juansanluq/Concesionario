@@ -3,6 +3,9 @@ package com.example.juan.concesionario;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
+
 public class Vehiculo {
     int id;
     String marca;
@@ -73,6 +76,9 @@ public class Vehiculo {
 
     public void setImagenBitmap(Bitmap imagenBitmap) {
         this.imagenBitmap = imagenBitmap;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        this.imagenBitmap.compress(Bitmap.CompressFormat.PNG, 100,baos);
+        this.imagenBytes = baos.toByteArray();
     }
 
     public double getPrecio() {
