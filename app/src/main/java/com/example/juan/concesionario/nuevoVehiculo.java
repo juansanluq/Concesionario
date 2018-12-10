@@ -3,10 +3,12 @@ package com.example.juan.concesionario;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -31,9 +33,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+
 public class nuevoVehiculo extends AppCompatActivity implements View.OnClickListener {
     private ImageView imgv;
-    private Button btnImagen;
     private EditText edtMarca, edtModelo, edtDescripcion, edtPrecio;
     private Switch switchNuevo;
     private FloatingActionButton fab;
@@ -51,7 +57,6 @@ public class nuevoVehiculo extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_nuevo_vehiculo);
 
         imgv = findViewById(R.id.imgv);
-        btnImagen = findViewById(R.id.btnImagen);
         edtMarca = findViewById(R.id.edtMarca);
         edtModelo = findViewById(R.id.edtModelo);
         edtDescripcion = findViewById(R.id.edtDescripcion);
@@ -59,7 +64,7 @@ public class nuevoVehiculo extends AppCompatActivity implements View.OnClickList
         fab = findViewById(R.id.fab);
         switchNuevo = findViewById(R.id.switchNuevo);
         lv = findViewById(R.id.lv);
-        btnImagen.setOnClickListener(this);
+        imgv.setOnClickListener(this);
         nuevoVehiculo = new Vehiculo();
 
         final ArrayList<ExtrasPresupuesto> extrasPresupuesto = new ArrayList<ExtrasPresupuesto>();
@@ -142,7 +147,7 @@ public class nuevoVehiculo extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == findViewById(R.id.btnImagen).getId())
+        if(v.getId() == findViewById(R.id.imgv).getId())
         {
             btnImagenPulsado = true;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -156,9 +161,11 @@ public class nuevoVehiculo extends AppCompatActivity implements View.OnClickList
                             }
                             if(which == 1)
                             {
-                                Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                                galeria.setType("image/*");
-                                startActivityForResult(galeria, RESULT_LOAD_IMG);
+                                if (checkPermission()) {
+                                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                                    intent.setType("image/*");
+                                    startActivityForResult(intent, RESULT_LOAD_IMG);
+                                }
                             }
                         }
                     });
@@ -176,11 +183,35 @@ public class nuevoVehiculo extends AppCompatActivity implements View.OnClickList
         }
         if(requestCode == RESULT_LOAD_IMG && resultCode == Activity.RESULT_OK)
         {
-            Uri imageUri = data.getData();
-            imgv.setImageURI(imageUri);
-            //imgv.getDrawingCache();
-            //Bitmap imagenGaleria = imgv.getDrawingCache();
-            //nuevoVehiculo.setImagenBitmap(imagenGaleria);
+            Uri uri = data.getData();
+            try {
+                photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                imgv.setImageBitmap(photo);
+                nuevoVehiculo.setImagenBitmap(photo);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private boolean checkPermission() {
+        /* Se compureba de que la SDK es superior a marshmallow, pues si es inferior no es necesario
+         * pedir permisos */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((checkSelfPermission(CAMERA) != PackageManager.PERMISSION_GRANTED) &&
+                    (checkSelfPermission(WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
+                    (checkSelfPermission(READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                /* En caso de no haber cargado correctamente los permisos se avisa con
+                 * un Toast y se piden */
+                Toast.makeText(getApplicationContext(), "Error al cargar permisos", Toast.LENGTH_LONG).show();
+                requestPermissions(new String[]{CAMERA, WRITE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, 100);
+                return false;
+            } else {
+                /* En caso de todos los permisos correctos se notifica */
+                Toast.makeText(getApplicationContext(), "Todos los permisos se han cargado correctamente", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        }
+        return true;
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <string-array name="opcionesEntrada">
         <item>Cámara</item>
-        <!-- <item>Galería</item> -->
+        <item>Galería</item>
     </string-array>
 
 
