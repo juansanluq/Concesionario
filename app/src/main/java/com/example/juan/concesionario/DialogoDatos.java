@@ -64,7 +64,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class DialogoDatos extends DialogFragment {
-    private EditText edtNombre,edtTelefono,edtEmail, edtDireccion,edtPoblacion,edtFecha;
+    public static EditText edtNombre,edtTelefono,edtEmail, edtDireccion,edtPoblacion,edtFecha;
 
     private static final String CERO = "0";
     private static final String BARRA = "/";
@@ -87,7 +87,6 @@ public class DialogoDatos extends DialogFragment {
             Font.BOLD);
 
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -108,22 +107,10 @@ public class DialogoDatos extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         if(checkPermission())
                         {
-                            String path = Environment.getExternalStorageDirectory().toString();
-                            OutputStream fOut = null;
-                            File file = new File(path,"coche.jpg");
-                            File filehtml = new File(path,"presupuesto.html");
-                            try {
-                                fOut = new FileOutputStream(file);
-                                Principal.vehiculoDetalle.getImagenBitmap().compress(Bitmap.CompressFormat.JPEG,85,fOut);
-                                fOut.flush();
-                                fOut.close();
-                                MediaStore.Images.Media.insertImage(Presupuesto.contextOfApplication.getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+                                Intent i = new Intent(getContext(),Webview.class);
+                                startActivity(i);
 
-                                FileOutputStream out = new FileOutputStream(filehtml);
-                                out.write(hacer_presupuestoHTML().getBytes());
-                                out.close();
-
-                                ArrayList<Uri> uris = new ArrayList<Uri>();
+                                /*ArrayList<Uri> uris = new ArrayList<Uri>();
                                 uris.add(Uri.fromFile(filehtml));
                                 uris.add(Uri.fromFile(file));
 
@@ -136,12 +123,7 @@ public class DialogoDatos extends DialogFragment {
                                 enviar_email.putExtra(Intent.EXTRA_TEXT, "Gracias por visitar nuestro concesionario");
                                 enviar_email.setType("text/html");
                                 enviar_email.setType("image/jpg");
-                                startActivityForResult(Intent.createChooser(enviar_email,"Elige la aplicación de mensajería"),1);
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                                startActivityForResult(Intent.createChooser(enviar_email,"Elige la aplicación de mensajería"),1);*/
                         }
                     }
                 })
@@ -217,7 +199,7 @@ public class DialogoDatos extends DialogFragment {
         return true;
     }
 
-    private String hacer_presupuestoHTML ()
+    public static String hacer_presupuestoHTML ()
     {
         String html1 = "<!DOCTYPE html>\r\n" +
                 "<html lang=\"es\">\r\n" +
@@ -296,7 +278,7 @@ public class DialogoDatos extends DialogFragment {
                 "				<tr>\r\n" +
                 "				<td class=\"total\" colspan=\"4\">TOTAL:</td>\r\n" +
                 "				<td>";
-        String precio_total = String.valueOf(Presupuesto.sumatorio);
+        String precio_total = String.valueOf(Presupuesto.sumatorio) + " €";
 
         String html3 = "</td>\r\n" +
                 "				</tr>\r\n" +
@@ -319,7 +301,7 @@ public class DialogoDatos extends DialogFragment {
             String fila_nombre_extra = Presupuesto.extrasSeleccionados.get(i).getNombre();
             String fila_p2 = "</td>\r\n" +
                     "					<td>";
-            String fila_precio_extra = String.valueOf(Presupuesto.extrasSeleccionados.get(i).getPrecio());
+            String fila_precio_extra = String.valueOf(Presupuesto.extrasSeleccionados.get(i).getPrecio()) + " €";
             String fila_p3 = "</td>\r\n" +
                     "				</tr>\r\n";
             if (i == 0)
