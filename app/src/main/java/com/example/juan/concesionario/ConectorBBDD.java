@@ -202,45 +202,6 @@ public class ConectorBBDD extends SQLiteAssetHelper {
         }
     }
 
-    /*public ArrayList<Extra> recuperarExtrasVehiculo(Vehiculo vehiculo)
-    {
-        SQLiteDatabase db = getReadableDatabase();
-        ArrayList<Extra> lista_extras_vehiculo = new ArrayList<Extra>();
-        ArrayList<String> id_extra = new ArrayList<String>();
-        String[] valores_recuperar = {"idextra"};
-        Cursor c = db.query("extra_vehiculo",valores_recuperar,"idvehiculo = " + vehiculo.getId(),null,null,null,null,null);
-        if(c.getCount() > 0)
-        {
-            c.moveToFirst();
-            do {
-                id_extra.add(String.valueOf(c.getInt(0)));
-            }while(c.moveToNext());
-        }
-        db.close();
-        c.close();
-
-        SQLiteDatabase db2 = getReadableDatabase();
-        String[] valores_recuperar_extras = {"id","nombre","descripcion","precio"};
-        for(int i=0; i < id_extra.size();i++)
-        {
-            Cursor cursor = db2.query("extras",valores_recuperar_extras,"id = " + id_extra.get(i) ,null,null,null,null,null);
-            if(c.getCount() > 0)
-            {
-                cursor.moveToFirst();
-                do {
-                    Extra extra = new Extra(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getDouble(3));
-                    lista_extras_vehiculo.add(extra);
-                }while(c.moveToNext());
-            }
-            else {
-                cursor.close();
-                db2.close();
-                return lista_extras_vehiculo;
-            }
-        }
-        return lista_extras_vehiculo;
-    }*/
-
     public ArrayList<Extra> recuperarExtrasVehiculo (Vehiculo vehiculo)
     {
         SQLiteDatabase db = getReadableDatabase();

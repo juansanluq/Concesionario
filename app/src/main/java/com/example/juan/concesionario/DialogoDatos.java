@@ -1,23 +1,31 @@
 package com.example.juan.concesionario;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.print.PrintAttributes;
 import android.print.pdf.PrintedPdfDocument;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
@@ -45,12 +53,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class DialogoDatos extends DialogFragment {
-    private EditText edtFecha;
+    private EditText edtNombre,edtTelefono,edtEmail, edtDireccion,edtPoblacion,edtFecha;
 
     private static final String CERO = "0";
     private static final String BARRA = "/";
@@ -73,38 +87,62 @@ public class DialogoDatos extends DialogFragment {
             Font.BOLD);
 
 
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_presupuesto, null);
         builder.setView(view);
         // Add action buttons
+        edtFecha = view.findViewById(R.id.edtFecha);
+        edtNombre = view.findViewById(R.id.edtNombre);
+        edtTelefono = view.findViewById(R.id.edtTelefono);
+        edtEmail = view.findViewById(R.id.edtEmail);
+        edtDireccion = view.findViewById(R.id.edtDireccion);
+        edtPoblacion = view.findViewById(R.id.edtPoblacion);
         builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        File FILE = new File(Environment.getExternalStoragePublicDirectory(
-                                Environment.DIRECTORY_DCIM), "FirstPDF.pdf");
+                        if(checkPermission())
+                        {
+                            String path = Environment.getExternalStorageDirectory().toString();
+                            OutputStream fOut = null;
+                            File file = new File(path,"coche.jpg");
+                            File filehtml = new File(path,"presupuesto.html");
+                            try {
+                                fOut = new FileOutputStream(file);
+                                Principal.vehiculoDetalle.getImagenBitmap().compress(Bitmap.CompressFormat.JPEG,85,fOut);
+                                fOut.flush();
+                                fOut.close();
+                                MediaStore.Images.Media.insertImage(Presupuesto.contextOfApplication.getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
 
-                        Document document = new Document();
-                        try {
-                            PdfWriter.getInstance(document, new FileOutputStream(FILE));
-                        } catch (DocumentException e) {
-                            e.printStackTrace();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        document.open();
-                        addMetaData(document);
-                        try {
-                            addTitlePage(document);
-                            addContent(document);
-                        } catch (DocumentException e) {
-                            e.printStackTrace();
-                        }
-                        document.close();
+                                FileOutputStream out = new FileOutputStream(filehtml);
+                                out.write(hacer_presupuestoHTML().getBytes());
+                                out.close();
 
+                                ArrayList<Uri> uris = new ArrayList<Uri>();
+                                uris.add(Uri.fromFile(filehtml));
+                                uris.add(Uri.fromFile(file));
+
+                                String[] destinatario = new String[]{edtEmail.getText().toString()};
+
+                                Intent enviar_email = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                                enviar_email.putExtra(Intent.EXTRA_EMAIL,destinatario);
+                                enviar_email.putExtra(Intent.EXTRA_SUBJECT,"Presupuesto Cliente " + edtNombre.getText().toString() + " | " + Principal.vehiculoDetalle.getMarca() + " " + Principal.vehiculoDetalle.getModelo());
+                                enviar_email.putParcelableArrayListExtra(Intent.EXTRA_STREAM,uris);
+                                enviar_email.putExtra(Intent.EXTRA_TEXT, "Gracias por visitar nuestro concesionario");
+                                enviar_email.setType("text/html");
+                                enviar_email.setType("image/jpg");
+                                startActivityForResult(Intent.createChooser(enviar_email,"Elige la aplicación de mensajería"),1);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 })
                 .setTitle("DATOS CLIENTE")
@@ -113,7 +151,6 @@ public class DialogoDatos extends DialogFragment {
                         DialogoDatos.this.getDialog().cancel();
                     }
                 });
-        edtFecha = view.findViewById(R.id.edtFecha);
         edtFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +160,15 @@ public class DialogoDatos extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK)
+        {
+
+        }
     }
 
     private void obtenerFecha(){
@@ -150,158 +196,142 @@ public class DialogoDatos extends DialogFragment {
 
     }
 
-
-    /*@Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.fragment_presupuesto, null))
-                // Add action buttons
-                .setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // sign in the user ...
-                    }
-                })
-                .setTitle("DATOS CLIENTE")
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        DialogoDatos.this.getDialog().cancel();
-                    }
-                });
-
-        return builder.create();
-    }*/
-    private static void addMetaData(Document document) {
-        document.addTitle("My first PDF");
-        document.addSubject("Using iText");
-        document.addKeywords("Java, PDF, iText");
-        document.addAuthor("Lars Vogel");
-        document.addCreator("Lars Vogel");
-    }
-
-    private static void addTitlePage(Document document)
-            throws DocumentException {
-        Paragraph preface = new Paragraph();
-        // We add one empty line
-        addEmptyLine(preface, 1);
-        // Lets write a big header
-        preface.add(new Paragraph("Title of the document", catFont));
-
-        addEmptyLine(preface, 1);
-        // Will create: Report generated by: _name, _date
-        preface.add(new Paragraph(
-                "Report generated by: " + System.getProperty("user.name") + ", " + new Date(), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                smallBold));
-        addEmptyLine(preface, 3);
-        preface.add(new Paragraph(
-                "This document describes something which is very important ",
-                smallBold));
-
-        addEmptyLine(preface, 8);
-
-        preface.add(new Paragraph(
-                "This document is a preliminary version and not subject to your license agreement or any other agreement with vogella.com ;-).",
-                redFont));
-
-        document.add(preface);
-        // Start a new page
-        document.newPage();
-    }
-
-    private static void addContent(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", catFont);
-        anchor.setName("First Chapter");
-
-        // Second parameter is the number of the chapter
-        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
-
-        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
-        Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Hello"));
-
-        subPara = new Paragraph("Subcategory 2", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Paragraph 1"));
-        subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("Paragraph 3"));
-
-        // add a list
-        createList(subCatPart);
-        Paragraph paragraph = new Paragraph();
-        addEmptyLine(paragraph, 5);
-        subCatPart.add(paragraph);
-
-        // add a table
-        createTable(subCatPart);
-
-        // now add all this to the document
-        document.add(catPart);
-
-        // Next section
-        anchor = new Anchor("Second Chapter", catFont);
-        anchor.setName("Second Chapter");
-
-        // Second parameter is the number of the chapter
-        catPart = new Chapter(new Paragraph(anchor), 1);
-
-        subPara = new Paragraph("Subcategory", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("This is a very important message"));
-
-        // now add all this to the document
-        document.add(catPart);
-
-    }
-
-    private static void createTable(Section subCatPart)
-            throws BadElementException {
-        PdfPTable table = new PdfPTable(3);
-
-        // t.setBorderColor(BaseColor.GRAY);
-        // t.setPadding(4);
-        // t.setSpacing(4);
-        // t.setBorderWidth(1);
-
-        PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Table Header 2"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Table Header 3"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-        table.setHeaderRows(1);
-
-        table.addCell("1.0");
-        table.addCell("1.1");
-        table.addCell("1.2");
-        table.addCell("2.1");
-        table.addCell("2.2");
-        table.addCell("2.3");
-
-        subCatPart.add(table);
-
-    }
-
-    private static void createList(Section subCatPart) {
-        List list = new List(true, false, 10);
-        list.add(new ListItem("First point"));
-        list.add(new ListItem("Second point"));
-        list.add(new ListItem("Third point"));
-        subCatPart.add(list);
-    }
-
-    private static void addEmptyLine(Paragraph paragraph, int number) {
-        for (int i = 0; i < number; i++) {
-            paragraph.add(new Paragraph(" "));
+    private boolean checkPermission() {
+        /* Se compureba de que la SDK es superior a marshmallow, pues si es inferior no es necesario
+         * pedir permisos */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((ContextCompat.checkSelfPermission(getActivity(),CAMERA) != PackageManager.PERMISSION_GRANTED) &&
+                    (ContextCompat.checkSelfPermission(getActivity(),WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
+                    (ContextCompat.checkSelfPermission(getActivity(),READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                /* En caso de no haber cargado correctamente los permisos se avisa con
+                 * un Toast y se piden */
+                Toast.makeText(getContext(), "Error al cargar permisos", Toast.LENGTH_LONG).show();
+                requestPermissions(new String[]{CAMERA, WRITE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, 100);
+                return false;
+            } else {
+                /* En caso de todos los permisos correctos se notifica */
+                Toast.makeText(getContext(), "Todos los permisos se han cargado correctamente", Toast.LENGTH_LONG).show();
+                return true;
+            }
         }
+        return true;
+    }
+
+    private String hacer_presupuestoHTML ()
+    {
+        String html1 = "<!DOCTYPE html>\r\n" +
+                "<html lang=\"es\">\r\n" +
+                "<head>\r\n" +
+                "<title>Titulo de la web| Menos de 55 caracteres</title>\r\n" +
+                "<meta charset=\"utf-8\" />\r\n" +
+                "<meta name=\"description\" content=\"Debe contener las palabras clave, tratar de atraer clicks y de longitud entre 150 y 160 caracteres\">\r\n" +
+                "<link rel=\"stylesheet\" href=\"estilos.css\" />\r\n" +
+                "<link rel=\"shortcut icon\" href=\"/favicon.ico\" />\r\n" +
+                "<style>\r\n" +
+                "table.minimalistBlack {\r\n" +
+                "  border: 3px solid #000000;\r\n" +
+                "  width: 100%;\r\n" +
+                "  text-align: left;\r\n" +
+                "  border-collapse: collapse;\r\n" +
+                "}\r\n" +
+                "table.minimalistBlack td, table.minimalistBlack th {\r\n" +
+                "  border: 1px solid #000000;\r\n" +
+                "  padding: 5px 4px;\r\n" +
+                "}\r\n" +
+                "table.minimalistBlack tbody td {\r\n" +
+                "  font-size: 13px;\r\n" +
+                "}\r\n" +
+                "table.minimalistBlack th {\r\n" +
+                "  text-align:center;\r\n" +
+                "}\r\n" +
+                "table.minimalistBlack thead {\r\n" +
+                "  background: #CFCFCF;\r\n" +
+                "  background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\r\n" +
+                "  background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\r\n" +
+                "  background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\r\n" +
+                "  border-bottom: 3px solid #000000;\r\n" +
+                "}\r\n" +
+                "table.minimalistBlack thead th {\r\n" +
+                "  font-size: 15px;\r\n" +
+                "  font-weight: bold;\r\n" +
+                "  color: #000000;\r\n" +
+                "  text-align: center;\r\n" +
+                "}\r\n" +
+                "table.minimalistBlack tfoot {\r\n" +
+                "  font-size: 14px;\r\n" +
+                "  font-weight: bold;\r\n" +
+                "  color: #000000;\r\n" +
+                "  border-top: 3px solid #000000;\r\n" +
+                "}\r\n" +
+                "table.minimalistBlack tfoot td {\r\n" +
+                "  font-size: 14px;\r\n" +
+                "}\r\n" +
+                "td.extra{\r\n" +
+                "  width:80%;\r\n" +
+                "}\r\n" +
+                "td.modelo{\r\n" +
+                "  font-size: 12px;\r\n" +
+                "  font-weight: bold;\r\n" +
+                "  color: #000000;\r\n" +
+                "  text-align: center;\r\n" +
+                "}\r\n" +
+                "td.total{\r\n" +
+                "  text-align: center;\r\n" +
+                "}\r\n" +
+                "</style>\r\n" +
+                "</head>\r\n" +
+                "<body>\r\n" +
+                "<table class=\"minimalistBlack\">\r\n" +
+                "<thead>\r\n" +
+                "<tr>\r\n" +
+                "<th colspan=\"5\">";
+        String marca_coche = Principal.vehiculoDetalle.getMarca().toUpperCase();
+        String modelo_coche = Principal.vehiculoDetalle.getModelo().toUpperCase();
+        String precio_base = "Precio base del vehículo";
+        String precio_base_value = String.valueOf(Principal.vehiculoDetalle.getPrecio()) + " €";
+        String html2 = "</th>\r\n" +
+                "				</tr>\r\n" +
+                "			</thead>\r\n" +
+                "			<tfoot>\r\n" +
+                "				<tr>\r\n" +
+                "				<td class=\"total\" colspan=\"4\">TOTAL:</td>\r\n" +
+                "				<td>";
+        String precio_total = String.valueOf(Presupuesto.sumatorio);
+
+        String html3 = "</td>\r\n" +
+                "				</tr>\r\n" +
+                "			</tfoot>\r\n" +
+                "			<tbody>\r\n" +
+                "				<tr>\r\n" +
+                "					<td class=\"modelo\" colspan=\"5\">";
+        String final_html = "</tbody>\r\n" +
+                "</table>\r\n" +
+                "</body>\r\n" +
+                "</html>";
+
+        String resultado = html1 + marca_coche + html2 + precio_total + html3 + modelo_coche;
+        int size = Presupuesto.extrasSeleccionados.size();
+        for (int i = 0; i < Presupuesto.extrasSeleccionados.size(); i++)
+        {
+            String fila_p1 = "</tr>\r\n" +
+                    "				<tr>\r\n" +
+                    "					<td class=\"extra\" colspan=\"4\">";
+            String fila_nombre_extra = Presupuesto.extrasSeleccionados.get(i).getNombre();
+            String fila_p2 = "</td>\r\n" +
+                    "					<td>";
+            String fila_precio_extra = String.valueOf(Presupuesto.extrasSeleccionados.get(i).getPrecio());
+            String fila_p3 = "</td>\r\n" +
+                    "				</tr>\r\n";
+            if (i == 0)
+            {
+                resultado = resultado + fila_p1 + precio_base + fila_p2 + precio_base_value + fila_p3;
+            }
+            String fila = fila_p1 + fila_nombre_extra + fila_p2 + fila_precio_extra + fila_p3;
+            resultado = resultado + fila;
+        }
+
+        resultado = resultado + final_html;
+
+        return resultado;
     }
 }

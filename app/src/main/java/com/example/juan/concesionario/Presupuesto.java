@@ -2,6 +2,7 @@ package com.example.juan.concesionario;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,11 +43,15 @@ public class Presupuesto extends AppCompatActivity implements View.OnClickListen
     private PresupuestoAdapter adaptador;
     double precioVehiculo = Principal.vehiculoDetalle.getPrecio();
     private FloatingActionButton fab;
+    public static Context contextOfApplication;
+    public static ArrayList<Extra> extrasSeleccionados = new ArrayList<Extra>();
+    public static double sumatorio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_presupuesto);
+        contextOfApplication = getApplicationContext();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,12 +100,13 @@ public class Presupuesto extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         if(btnCalcular.findViewById(R.id.btnCalcular).getId() == v.getId())
         {
-            double sumatorio = precioVehiculo;
+            sumatorio = precioVehiculo;
             for(int i=0;i<adaptador.getExtrasArray().size();i++)
             {
                 if(adaptador.getExtrasArray().get(i).isCheckbox())
                 {
                     sumatorio = sumatorio + adaptador.getExtrasArray().get(i).getExtra().getPrecio();
+                    extrasSeleccionados.add(adaptador.getExtrasArray().get(i).getExtra());
                 }
             }
             String salida = String.valueOf(sumatorio) + " €";
