@@ -117,4 +117,10 @@ public class Presupuesto extends AppCompatActivity implements View.OnClickListen
             txvPrecioToolbar.setText(str);
         }
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        extrasSeleccionados.clear();
+    }
 }

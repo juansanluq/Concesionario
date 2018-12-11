@@ -8,18 +8,18 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="40dp"
-        android:layout_height="43dp"
+        android:layout_width="53dp"
+        android:layout_height="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+        app:srcCompat="@android:drawable/presence_online" />
 
     <WebView
         android:id="@+id/wb"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </WebView>
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>

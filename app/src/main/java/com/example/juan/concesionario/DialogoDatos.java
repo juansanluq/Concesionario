@@ -205,10 +205,6 @@ public class DialogoDatos extends DialogFragment {
                 "<html lang=\"es\">\r\n" +
                 "<head>\r\n" +
                 "<title>Titulo de la web| Menos de 55 caracteres</title>\r\n" +
-                "<meta charset=\"utf-8\" />\r\n" +
-                "<meta name=\"description\" content=\"Debe contener las palabras clave, tratar de atraer clicks y de longitud entre 150 y 160 caracteres\">\r\n" +
-                "<link rel=\"stylesheet\" href=\"estilos.css\" />\r\n" +
-                "<link rel=\"shortcut icon\" href=\"/favicon.ico\" />\r\n" +
                 "<style>\r\n" +
                 "table.minimalistBlack {\r\n" +
                 "  border: 3px solid #000000;\r\n" +
@@ -260,9 +256,83 @@ public class DialogoDatos extends DialogFragment {
                 "td.total{\r\n" +
                 "  text-align: center;\r\n" +
                 "}\r\n" +
+                "table \r\n" +
+                "	{\r\n" +
+                "		border: 2px solid black;\r\n" +
+                "		margin-top: 20px;\r\n" +
+                "		width:100%;\r\n" +
+                "	}\r\n" +
+                "	\r\n" +
+                "	td \r\n" +
+                "	{\r\n" +
+                "		padding: 5px;\r\n" +
+                "	}\r\n" +
+                "	\r\n" +
+                "	th \r\n" +
+                "	{\r\n" +
+                "		border-bottom: 1px solid black;\r\n" +
+                "	}\r\n" +
                 "</style>\r\n" +
                 "</head>\r\n" +
                 "<body>\r\n" +
+                "<h1 align = \"center\">Presupuesto</h1>\r\n" +
+                "  <table>\r\n" +
+                "	<tr>\r\n" +
+                "		<td colspan=\"2\"> Concesionario Mis Cojones </td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> NIF: 25158415T </td>\r\n" +
+                "		<td align=\"right\" rowspan=\"6\"> <img src=\"https://images0.autocasion.com/unsafe/origxorig/adv/04/2895/c2149a929118570d5898b1ceb7e70d931e668dce.jpeg\" height=\"100px\" width=\"200px\"> </img> </td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Dirección: C/ Alberto Aguilera, 1 </td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> 28015 Madrid </td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Teléfonos: 683 251 205 - 914 301 500 </td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Correo electrónico: A15motor@gmail.com  </td>\r\n" +
+                "	</tr>\r\n" +
+                "  </table>\r\n" +
+                "  \r\n" +
+                "  <table width=\"100%\">\r\n" +
+                "	<tr>\r\n" +
+                "		<th> Cliente: </th>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Nombre: ";
+        String nombre_cliente = edtNombre.getText().toString();
+        String html1_1 = "</td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Teléfono: ";
+        String telefono = edtTelefono.getText().toString();
+        String html1_2 = "</td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Email: ";
+        String email = edtEmail.getText().toString();
+        String html1_3 = "</td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Dirección: ";
+        String direccion = edtDireccion.getText().toString();
+        String html1_4 = "</td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Población: ";
+        String poblacion = edtPoblacion.getText().toString();
+        String html1_5 = "</td>\r\n" +
+                "	</tr>\r\n" +
+                "	<tr>\r\n" +
+                "		<td> Fecha Nacimiento: ";
+        String fecha_nacimiento = edtFecha.getText().toString();
+        String html1_6 = "</td>\r\n" +
+                "	</tr>\r\n" +
+                "  </table>\r\n" +
                 "<table class=\"minimalistBlack\">\r\n" +
                 "<thead>\r\n" +
                 "<tr>\r\n" +
@@ -291,7 +361,8 @@ public class DialogoDatos extends DialogFragment {
                 "</body>\r\n" +
                 "</html>";
 
-        String resultado = html1 + marca_coche + html2 + precio_total + html3 + modelo_coche;
+        //String resultado = html1 + marca_coche + html2 + precio_total + html3 + modelo_coche;
+        String resultado = html1 + nombre_cliente + html1_1 + telefono + html1_2 + email + html1_3 + direccion + html1_4 + poblacion + html1_5 + fecha_nacimiento + html1_6 + marca_coche + html2 + precio_total + html3 + modelo_coche;
         int size = Presupuesto.extrasSeleccionados.size();
         for (int i = 0; i < Presupuesto.extrasSeleccionados.size(); i++)
         {
