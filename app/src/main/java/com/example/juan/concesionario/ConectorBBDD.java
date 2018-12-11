@@ -202,7 +202,7 @@ public class ConectorBBDD extends SQLiteAssetHelper {
         }
     }
 
-    public ArrayList<Extra> recuperarExtrasVehiculo(Vehiculo vehiculo)
+    /*public ArrayList<Extra> recuperarExtrasVehiculo(Vehiculo vehiculo)
     {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Extra> lista_extras_vehiculo = new ArrayList<Extra>();
@@ -239,6 +239,29 @@ public class ConectorBBDD extends SQLiteAssetHelper {
             }
         }
         return lista_extras_vehiculo;
+    }*/
+
+    public ArrayList<Extra> recuperarExtrasVehiculo (Vehiculo vehiculo)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Extra> lista_extras_vehiculo = new ArrayList<Extra>();
+        Cursor c = db.rawQuery("SELECT extra_vehiculo.idextra, extras.nombre, extras.descripcion, extras.precio FROM extra_vehiculo inner join extras ON extra_vehiculo.idextra = extras.id WHERE extra_vehiculo.idvehiculo = " + String.valueOf(vehiculo.getId()),null);
+        if(c.getCount() > 0)
+        {
+            c.moveToFirst();
+            do {
+                Extra extra = new Extra(c.getInt(0),c.getString(1),c.getString(2),c.getDouble(3));
+                lista_extras_vehiculo.add(extra);
+            }while(c.moveToNext());
+            db.close();
+            c.close();
+            return lista_extras_vehiculo;
+        }
+        else {
+            c.close();
+            db.close();
+            return lista_extras_vehiculo;
+        }
     }
 
     public void borrarExtra(int id) {

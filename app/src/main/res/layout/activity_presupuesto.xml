@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:background="@color/naranja">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,7 +30,10 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
-                android:text="Dacia Sandero" />
+                android:fontFamily="@font/gentium_basic_bold"
+                android:text="Dacia Sandero"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -40,7 +43,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="101dp"
                 android:layout_marginRight="101dp"
-                android:text="Precio: " />
+                android:fontFamily="@font/gentium_basic_bold"
+                android:text="Precio: "
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txvPrecio"
@@ -50,7 +56,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="12dp"
                 android:layout_marginRight="12dp"
-                android:text="100 €" />
+                android:fontFamily="@font/gentium_basic_bold"
+                android:text="100 €"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textStyle="bold" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
@@ -75,11 +84,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:fontFamily="@font/gentium_basic_bold"
         android:text="CALCULAR PRECIO"
+        android:textColor="@color/common_google_signin_btn_text_light_pressed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,9 +99,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        app:backgroundTint="#517ee5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_save" />

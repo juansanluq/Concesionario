@@ -6,4 +6,5 @@
     <color name="naranja"> #FF9C1E </color>
     <color name="fondo_detalle">#ffeece</color>
     <color name="verde"> #65ff51 </color>
+    <color name="pastel">#c0e5ed</color>
 </resources>

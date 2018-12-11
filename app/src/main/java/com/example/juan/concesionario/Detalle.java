@@ -27,10 +27,12 @@ import javax.security.auth.PrivateCredentialPermission;
 public class Detalle extends AppCompatActivity {
     private AppBarLayout app_bar;
     private EditText edtMarca, edtModelo, edtDescripcion, edtPrecio;
+    private TextView txvExtras;
     private ListView lv;
     private FloatingActionButton fab;
     private Animation animDesaparecer, animAparecer, animDesaparecerGuardar;
     private boolean presupuesto = true;
+    private ImageView toolbar_background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +47,16 @@ public class Detalle extends AppCompatActivity {
         edtDescripcion = findViewById(R.id.edtDescripcion);
         edtPrecio = findViewById(R.id.edtPrecio);
         lv = findViewById(R.id.lv);
+        txvExtras = findViewById(R.id.txvExtras);
+
+        toolbar_background = findViewById(R.id.toolbar_background);
         animDesaparecer = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.desaparecer);
         animAparecer = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.aparecer);
         animDesaparecerGuardar = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.desaparecer);
 
 
-        toolbar.setTitle(Principal.vehiculoDetalle.getMarca() + " " + Principal.vehiculoDetalle.getModelo());
-        app_bar.setBackground(new BitmapDrawable(getResources(), Principal.vehiculoDetalle.getImagenBitmap()));
+        getSupportActionBar().setTitle(Principal.vehiculoDetalle.getMarca() + " " + Principal.vehiculoDetalle.getModelo());
+        toolbar_background.setImageBitmap(Principal.vehiculoDetalle.getImagenBitmap());
         edtMarca.setText(Principal.vehiculoDetalle.getMarca());
         edtModelo.setText(Principal.vehiculoDetalle.getModelo());
         edtDescripcion.setText(Principal.vehiculoDetalle.getDescripcion());
@@ -60,6 +65,7 @@ public class Detalle extends AppCompatActivity {
         if(Principal.vehiculoDetalle.isNuevo())
         {
             lv.setVisibility(View.GONE);
+            txvExtras.setVisibility(View.GONE);
         }
         else
         {
@@ -99,7 +105,7 @@ public class Detalle extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.naranja)));
                 fab.setImageResource(R.drawable.ic_presupuesto);
                 fab.startAnimation(animAparecer);
                 presupuesto = true;

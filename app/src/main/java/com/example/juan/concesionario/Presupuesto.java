@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +103,10 @@ public class Presupuesto extends AppCompatActivity implements View.OnClickListen
                     sumatorio = sumatorio + adaptador.getExtrasArray().get(i).getExtra().getPrecio();
                 }
             }
-            txvPrecioToolbar.setText(String.valueOf(sumatorio));
+            String salida = String.valueOf(sumatorio) + " €";
+            SpannableString str = new SpannableString(salida);
+            str.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.fondo_detalle)),0,salida.length(),0);
+            txvPrecioToolbar.setText(str);
         }
     }
 }
