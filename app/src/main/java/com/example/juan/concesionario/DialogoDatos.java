@@ -278,7 +278,7 @@ public class DialogoDatos extends DialogFragment {
                 "<h1 align = \"center\">Presupuesto</h1>\n" +
                 "  <table>\n" +
                 "	<tr>\n" +
-                "		<td colspan=\"2\"> Concesionario Mis Cojones </td>\n" +
+                "		<td colspan=\"2\"> Concesionario A-15 </td>\n" +
                 "	</tr>\n" +
                 "	<tr>\n" +
                 "		<td> NIF: 25158415T </td>\n" +
