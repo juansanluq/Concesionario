@@ -122,5 +122,6 @@ public class Presupuesto extends AppCompatActivity implements View.OnClickListen
     protected void onRestart() {
         super.onRestart();
         extrasSeleccionados.clear();
+        finish();
     }
 }

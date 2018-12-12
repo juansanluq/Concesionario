@@ -1,5 +1,6 @@
 package com.example.juan.concesionario;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,20 +10,24 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,7 +43,7 @@ import static com.example.juan.concesionario.DialogoDatos.hacer_presupuestoHTML;
 
 public class Webview extends AppCompatActivity {
     private WebView wb;
-    private FloatingActionButton fab;
+    private FloatingActionButton fab, fabCancelar;
     File filehtml;
     File carpeta;
     File ficheroPDF;
@@ -53,6 +58,13 @@ public class Webview extends AppCompatActivity {
         path = Environment.getExternalStorageDirectory().toString();
         wb = findViewById(R.id.wb);
         fab = findViewById(R.id.fab);
+        fabCancelar = findViewById(R.id.fabCancelar);
+        fabCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +81,8 @@ public class Webview extends AppCompatActivity {
                     MediaStore.Images.Media.insertImage(Presupuesto.contextOfApplication.getContentResolver(),file_imagen_coche.getAbsolutePath(),file_imagen_coche.getName(),file_imagen_coche.getName());
 
                     FileOutputStream out = new FileOutputStream(filehtml);
-                    out.write(hacer_presupuestoHTML().getBytes());
+                    byte[] s = hacer_presupuestoHTML().getBytes();
+                    out.write(s);
                     out.close();
 
                     createPDF("presupuesto.pdf");
@@ -89,8 +102,9 @@ public class Webview extends AppCompatActivity {
 
 
                 ArrayList<Uri> uris = new ArrayList<Uri>();
-                uris.add(Uri.fromFile(filehtml));
+                //uris.add(Uri.fromFile(filehtml));
                 uris.add(Uri.fromFile(file_imagen_coche));
+                uris.add(Uri.fromFile(ficheroPDF));
 
                 String[] destinatario = new String[]{DialogoDatos.edtEmail.getText().toString()};
 
@@ -114,6 +128,12 @@ public class Webview extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Presupuesto.extrasSeleccionados.clear();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
     }
 
     private void createPDF (String pdfFilename){
@@ -155,6 +175,7 @@ public class Webview extends AppCompatActivity {
             InputStreamReader fis = new InputStreamReader(is);
 
             //get the XMLWorkerHelper Instance
+
             XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
             //convert to PDF
             worker.parseXHtml(pdfWriter, document, fis);

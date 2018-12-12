@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -128,27 +129,35 @@ public class Detalle extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(presupuesto)
+                if(Principal.vehiculoDetalle.isNuevo())
                 {
-                    Intent i = new Intent(getApplicationContext(),Presupuesto.class);
-                    startActivity(i);
+                    if(presupuesto)
+                    {
+                        Intent i = new Intent(getApplicationContext(),Presupuesto.class);
+                        startActivity(i);
+                    }
+                    else
+                    {
+                        fab.startAnimation(animDesaparecerGuardar);
+
+                        Principal.vehiculoDetalle.setMarca(edtMarca.getText().toString());
+                        Principal.vehiculoDetalle.setModelo(edtModelo.getText().toString());
+                        Principal.vehiculoDetalle.setDescripcion(edtDescripcion.getText().toString());
+                        Principal.vehiculoDetalle.setPrecio(Double.parseDouble(edtPrecio.getText().toString()));
+
+                        Principal.baseDatos.modificarVehiculo(Principal.vehiculoDetalle);
+
+                        edtMarca.setFocusable(false);
+                        edtModelo.setFocusable(false);
+                        edtDescripcion.setFocusable(false);
+                        edtPrecio.setFocusable(false);
+                    }
                 }
                 else
                 {
-                    fab.startAnimation(animDesaparecerGuardar);
-
-                    Principal.vehiculoDetalle.setMarca(edtMarca.getText().toString());
-                    Principal.vehiculoDetalle.setModelo(edtModelo.getText().toString());
-                    Principal.vehiculoDetalle.setDescripcion(edtDescripcion.getText().toString());
-                    Principal.vehiculoDetalle.setPrecio(Double.parseDouble(edtPrecio.getText().toString()));
-
-                    Principal.baseDatos.modificarVehiculo(Principal.vehiculoDetalle);
-
-                    edtMarca.setFocusable(false);
-                    edtModelo.setFocusable(false);
-                    edtDescripcion.setFocusable(false);
-                    edtPrecio.setFocusable(false);
+                    Toast.makeText(getApplicationContext(),"No se pueden hacer presupuestos de los vehiculos de ocasión",Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }

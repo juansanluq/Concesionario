@@ -201,185 +201,188 @@ public class DialogoDatos extends DialogFragment {
 
     public static String hacer_presupuestoHTML ()
     {
-        String html1 = "<!DOCTYPE html>\r\n" +
-                "<html lang=\"es\">\r\n" +
-                "<head>\r\n" +
-                "<title>Titulo de la web| Menos de 55 caracteres</title>\r\n" +
-                "<style>\r\n" +
-                "table.minimalistBlack {\r\n" +
-                "  border: 3px solid #000000;\r\n" +
-                "  width: 100%;\r\n" +
-                "  text-align: left;\r\n" +
-                "  border-collapse: collapse;\r\n" +
-                "}\r\n" +
-                "table.minimalistBlack td, table.minimalistBlack th {\r\n" +
-                "  border: 1px solid #000000;\r\n" +
-                "  padding: 5px 4px;\r\n" +
-                "}\r\n" +
-                "table.minimalistBlack tbody td {\r\n" +
-                "  font-size: 13px;\r\n" +
-                "}\r\n" +
-                "table.minimalistBlack th {\r\n" +
-                "  text-align:center;\r\n" +
-                "}\r\n" +
-                "table.minimalistBlack thead {\r\n" +
-                "  background: #CFCFCF;\r\n" +
-                "  background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\r\n" +
-                "  background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\r\n" +
-                "  background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\r\n" +
-                "  border-bottom: 3px solid #000000;\r\n" +
-                "}\r\n" +
-                "table.minimalistBlack thead th {\r\n" +
-                "  font-size: 15px;\r\n" +
-                "  font-weight: bold;\r\n" +
-                "  color: #000000;\r\n" +
-                "  text-align: center;\r\n" +
-                "}\r\n" +
-                "table.minimalistBlack tfoot {\r\n" +
-                "  font-size: 14px;\r\n" +
-                "  font-weight: bold;\r\n" +
-                "  color: #000000;\r\n" +
-                "  border-top: 3px solid #000000;\r\n" +
-                "}\r\n" +
-                "table.minimalistBlack tfoot td {\r\n" +
-                "  font-size: 14px;\r\n" +
-                "}\r\n" +
-                "td.extra{\r\n" +
-                "  width:80%;\r\n" +
-                "}\r\n" +
-                "td.modelo{\r\n" +
-                "  font-size: 12px;\r\n" +
-                "  font-weight: bold;\r\n" +
-                "  color: #000000;\r\n" +
-                "  text-align: center;\r\n" +
-                "}\r\n" +
-                "td.total{\r\n" +
-                "  text-align: center;\r\n" +
-                "}\r\n" +
-                "table \r\n" +
-                "	{\r\n" +
-                "		border: 2px solid black;\r\n" +
-                "		margin-top: 20px;\r\n" +
-                "		width:100%;\r\n" +
-                "	}\r\n" +
-                "	\r\n" +
-                "	td \r\n" +
-                "	{\r\n" +
-                "		padding: 5px;\r\n" +
-                "	}\r\n" +
-                "	\r\n" +
-                "	th \r\n" +
-                "	{\r\n" +
-                "		border-bottom: 1px solid black;\r\n" +
-                "	}\r\n" +
-                "</style>\r\n" +
-                "</head>\r\n" +
-                "<body>\r\n" +
-                "<h1 align = \"center\">Presupuesto</h1>\r\n" +
-                "  <table>\r\n" +
-                "	<tr>\r\n" +
-                "		<td colspan=\"2\"> Concesionario Mis Cojones </td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
-                "		<td> NIF: 25158415T </td>\r\n" +
-                "		<td align=\"right\" rowspan=\"6\"> <img src=\"https://images0.autocasion.com/unsafe/origxorig/adv/04/2895/c2149a929118570d5898b1ceb7e70d931e668dce.jpeg\" height=\"100px\" width=\"200px\"> </img> </td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
-                "		<td> Dirección: C/ Alberto Aguilera, 1 </td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
-                "		<td> 28015 Madrid </td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
-                "		<td> Teléfonos: 683 251 205 - 914 301 500 </td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
-                "		<td> Correo electrónico: A15motor@gmail.com  </td>\r\n" +
-                "	</tr>\r\n" +
-                "  </table>\r\n" +
-                "  \r\n" +
-                "  <table width=\"100%\">\r\n" +
-                "	<tr>\r\n" +
-                "		<th> Cliente: </th>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
+        String html1 = "<!DOCTYPE html>\n" +
+                "<html lang=\"es\">\n" +
+                "<head>\n" +
+                "<title>Titulo de la web| Menos de 55 caracteres</title>\n" +
+                "<style>\n" +
+                "table.minimalistBlack {\n" +
+                "  border: 3px solid #000000;\n" +
+                "  width: 100%;\n" +
+                "  text-align: left;\n" +
+                "  border-collapse: collapse;\n" +
+                "}\n" +
+                "table.minimalistBlack td, table.minimalistBlack th {\n" +
+                "  border: 1px solid #000000;\n" +
+                "  padding: 5px 4px;\n" +
+                "}\n" +
+                "table.minimalistBlack tbody td {\n" +
+                "  font-size: 13px;\n" +
+                "}\n" +
+                "table.minimalistBlack th {\n" +
+                "  text-align:center;\n" +
+                "}\n" +
+                "table.minimalistBlack thead {\n" +
+                "  background: #CFCFCF;\n" +
+                "  background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\n" +
+                "  background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\n" +
+                "  background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);\n" +
+                "  border-bottom: 3px solid #000000;\n" +
+                "}\n" +
+                "table.minimalistBlack thead th {\n" +
+                "  font-size: 15px;\n" +
+                "  font-weight: bold;\n" +
+                "  color: #000000;\n" +
+                "  text-align: center;\n" +
+                "}\n" +
+                "table.minimalistBlack tfoot {\n" +
+                "  font-size: 14px;\n" +
+                "  font-weight: bold;\n" +
+                "  color: #000000;\n" +
+                "  border-top: 3px solid #000000;\n" +
+                "}\n" +
+                "table.minimalistBlack tfoot td {\n" +
+                "  font-size: 14px;\n" +
+                "}\n" +
+                "td.extra{\n" +
+                "  width:80%;\n" +
+                "}\n" +
+                "td.modelo{\n" +
+                "  font-size: 12px;\n" +
+                "  font-weight: bold;\n" +
+                "  color: #000000;\n" +
+                "  text-align: center;\n" +
+                "}\n" +
+                "td.total{\n" +
+                "  text-align: center;\n" +
+                "}\n" +
+                "table \n" +
+                "	{\n" +
+                "		border: 2px solid black;\n" +
+                "		margin-top: 20px;\n" +
+                "		width:100%;\n" +
+                "	}\n" +
+                "	\n" +
+                "	td \n" +
+                "	{\n" +
+                "		padding: 5px;\n" +
+                "	}\n" +
+                "	\n" +
+                "	th \n" +
+                "	{\n" +
+                "		border-bottom: 1px solid black;\n" +
+                "	}\n" +
+                "</style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<h1 align = \"center\">Presupuesto</h1>\n" +
+                "  <table>\n" +
+                "	<tr>\n" +
+                "		<td colspan=\"2\"> Concesionario Mis Cojones </td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
+                "		<td> NIF: 25158415T </td>\n" +
+                "		<td align=\"right\" rowspan=\"6\"> <img src=\"https://images0.autocasion.com/unsafe/origxorig/adv/04/2895/c2149a929118570d5898b1ceb7e70d931e668dce.jpeg\" height=\"100px\" width=\"200px\"/> </td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
+                "		<td> Dirección: C/ Alberto Aguilera, 1 </td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
+                "		<td> 28015 Madrid </td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
+                "		<td> Teléfonos: 683 251 205 - 914 301 500 </td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
+                "		<td> Correo electrónico: A15motor@gmail.com  </td>\n" +
+                "	</tr>\n" +
+                "  </table>\n" +
+                "  \n" +
+                "  <table width=\"100%\">\n" +
+                "	<tr>\n" +
+                "		<th> Cliente: </th>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
                 "		<td> Nombre: ";
         String nombre_cliente = edtNombre.getText().toString();
-        String html1_1 = "</td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
+        String html1_1 = "</td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
                 "		<td> Teléfono: ";
         String telefono = edtTelefono.getText().toString();
-        String html1_2 = "</td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
+        String html1_2 = "</td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
                 "		<td> Email: ";
         String email = edtEmail.getText().toString();
-        String html1_3 = "</td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
+        String html1_3 = "</td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
                 "		<td> Dirección: ";
         String direccion = edtDireccion.getText().toString();
-        String html1_4 = "</td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
+        String html1_4 = "</td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
                 "		<td> Población: ";
         String poblacion = edtPoblacion.getText().toString();
-        String html1_5 = "</td>\r\n" +
-                "	</tr>\r\n" +
-                "	<tr>\r\n" +
+        String html1_5 = "</td>\n" +
+                "	</tr>\n" +
+                "	<tr>\n" +
                 "		<td> Fecha Nacimiento: ";
         String fecha_nacimiento = edtFecha.getText().toString();
-        String html1_6 = "</td>\r\n" +
-                "	</tr>\r\n" +
-                "  </table>\r\n" +
-                "<table class=\"minimalistBlack\">\r\n" +
-                "<thead>\r\n" +
-                "<tr>\r\n" +
+        String html1_6 = "</td>\n" +
+                "	</tr>\n" +
+                "  </table>\n" +
+                "<table class=\"minimalistBlack\">\n" +
+                "<thead>\n" +
+                "<tr>\n" +
                 "<th colspan=\"5\">";
         String marca_coche = Principal.vehiculoDetalle.getMarca().toUpperCase();
         String modelo_coche = Principal.vehiculoDetalle.getModelo().toUpperCase();
         String precio_base = "Precio base del vehículo";
         String precio_base_value = String.valueOf(Principal.vehiculoDetalle.getPrecio()) + " €";
-        String html2 = "</th>\r\n" +
-                "				</tr>\r\n" +
-                "			</thead>\r\n" +
-                "			<tfoot>\r\n" +
-                "				<tr>\r\n" +
-                "				<td class=\"total\" colspan=\"4\">TOTAL:</td>\r\n" +
+        String html2 = "</th>\n" +
+                "				</tr>\n" +
+                "			</thead>\n" +
+                "			<tfoot>\n" +
+                "				<tr>\n" +
+                "				<td class=\"total\" colspan=\"4\">TOTAL:</td>\n" +
                 "				<td>";
         String precio_total = String.valueOf(Presupuesto.sumatorio) + " €";
 
-        String html3 = "</td>\r\n" +
-                "				</tr>\r\n" +
-                "			</tfoot>\r\n" +
-                "			<tbody>\r\n" +
-                "				<tr>\r\n" +
+        String html3 = "</td>\n" +
+                "				</tr>\n" +
+                "			</tfoot>\n" +
+                "			<tbody>\n" +
+                "				<tr>\n" +
                 "					<td class=\"modelo\" colspan=\"5\">";
-        String final_html = "</tbody>\r\n" +
-                "</table>\r\n" +
-                "</body>\r\n" +
-                "</html>";
+        String final_html = "</td>\n" +
+                "				</tr>\n" +
+                "				</tbody>\n" +
+                "</table>\n" +
+                "</body>\n" +
+                "</html>\n";
 
         //String resultado = html1 + marca_coche + html2 + precio_total + html3 + modelo_coche;
         String resultado = html1 + nombre_cliente + html1_1 + telefono + html1_2 + email + html1_3 + direccion + html1_4 + poblacion + html1_5 + fecha_nacimiento + html1_6 + marca_coche + html2 + precio_total + html3 + modelo_coche;
         int size = Presupuesto.extrasSeleccionados.size();
         for (int i = 0; i < Presupuesto.extrasSeleccionados.size(); i++)
         {
-            String fila_p1 = "</tr>\r\n" +
-                    "				<tr>\r\n" +
+            String fila_p1 = "</td>\n" +
+                    "				</tr>\n" +
+                    "				<tr>\n" +
                     "					<td class=\"extra\" colspan=\"4\">";
             String fila_nombre_extra = Presupuesto.extrasSeleccionados.get(i).getNombre();
-            String fila_p2 = "</td>\r\n" +
+            String fila_p2 = "</td>\n" +
                     "					<td>";
             String fila_precio_extra = String.valueOf(Presupuesto.extrasSeleccionados.get(i).getPrecio()) + " €";
-            String fila_p3 = "</td>\r\n" +
-                    "				</tr>\r\n";
+            String fila_p3 = "</td>\n" +
+                    "				</tr>";
             if (i == 0)
             {
-                resultado = resultado + fila_p1 + precio_base + fila_p2 + precio_base_value + fila_p3;
+                resultado = resultado + fila_p1 + precio_base + fila_p2 + precio_base_value;
             }
-            String fila = fila_p1 + fila_nombre_extra + fila_p2 + fila_precio_extra + fila_p3;
+            String fila = fila_p1 + fila_nombre_extra + fila_p2 + fila_precio_extra;
             resultado = resultado + fila;
         }
 
