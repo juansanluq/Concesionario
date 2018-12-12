@@ -68,32 +68,14 @@ public class Webview extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OutputStream fOut = null;
-                File file_imagen_coche = new File(path,"coche.jpg");
-
-                //File imageFile = new File(path,"imagen.jpg");
 
                 try {
-                    fOut = new FileOutputStream(file_imagen_coche);
-                    Principal.vehiculoDetalle.getImagenBitmap().compress(Bitmap.CompressFormat.JPEG,85,fOut);
-                    fOut.flush();
-                    fOut.close();
-                    MediaStore.Images.Media.insertImage(Presupuesto.contextOfApplication.getContentResolver(),file_imagen_coche.getAbsolutePath(),file_imagen_coche.getName(),file_imagen_coche.getName());
 
                     FileOutputStream out = new FileOutputStream(filehtml);
                     byte[] s = hacer_presupuestoHTML().getBytes();
                     out.write(s);
                     out.close();
-
                     createPDF("presupuesto.pdf");
-                    //Toast.makeText(getApplicationContext(),"PDF hecho con éxito",Toast.LENGTH_SHORT).show();
-                    //FileOutputStream outputStream = new FileOutputStream(imageFile);
-                    //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                    //outputStream.flush();
-                    //outputStream.close();
-                    //FileOutputStream out = new FileOutputStream(filehtml);
-                    //out.write(DialogoDatos.hacer_presupuestoHTML().getBytes());
-                    //out.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -102,8 +84,6 @@ public class Webview extends AppCompatActivity {
 
 
                 ArrayList<Uri> uris = new ArrayList<Uri>();
-                //uris.add(Uri.fromFile(filehtml));
-                uris.add(Uri.fromFile(file_imagen_coche));
                 uris.add(Uri.fromFile(ficheroPDF));
 
                 String[] destinatario = new String[]{DialogoDatos.edtEmail.getText().toString()};

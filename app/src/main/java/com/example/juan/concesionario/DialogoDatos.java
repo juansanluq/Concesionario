@@ -54,6 +54,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PipedReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -348,8 +349,15 @@ public class DialogoDatos extends DialogFragment {
                 "				<tr>\n" +
                 "				<td class=\"total\" colspan=\"4\">TOTAL:</td>\n" +
                 "				<td>";
-        String precio_total = String.valueOf(Presupuesto.sumatorio) + " €";
-
+        String precio_total;
+        if(Principal.vehiculoDetalle.isNuevo())
+        {
+            precio_total = String.valueOf(Presupuesto.sumatorio) + " €";
+        }
+        else
+        {
+            precio_total = String.valueOf(Principal.vehiculoDetalle.getPrecio() + " €");
+        }
         String html3 = "</td>\n" +
                 "				</tr>\n" +
                 "			</tfoot>\n" +

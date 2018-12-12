@@ -155,7 +155,8 @@ public class Detalle extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"No se pueden hacer presupuestos de los vehiculos de ocasión",Toast.LENGTH_SHORT).show();
+                    DialogoDatos dialog = new DialogoDatos();
+                    dialog.show(getSupportFragmentManager(),"Dialogo");
                 }
 
             }
